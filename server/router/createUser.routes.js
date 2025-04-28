@@ -19,11 +19,16 @@ export const createUsers = async (req, res) => {
 
     // Create JWT Token
     const token = await newUser.jwtTokenGenerate()
+    res.cookie("token" , token , {
+        httpOnly : true,
+        secure : process.env.NODEENV === "production",
+        sameSite : process.env.NODEENV === "production" ? "none" : "strict",
+        maxAge : 7*24*60*60*1000
+    })
 
     newUser.save().then(() => {
         res.status(201).send({
-            message: `user ${fullName} has created..!`,
-            token : token
+            message: `user ${fullName} has created..!`
         })
     }).catch((error) => {
         res.status(402).send({

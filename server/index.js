@@ -13,12 +13,13 @@ import {createUsers} from "./router/createUser.routes.js"
 import {removeUsers} from "./router/deleteUser.routes.js"
 import {updateUsers , patchUsers} from "./router/updateUser.routes.js"
 import {userProfile} from "./router/userProfile.routes.js"
+import {logout} from "./router/logoutUser.routes.js"
 
 const app = express()
 app.use(express.json())  // JSON BODY PARSER
 app.use(express.urlencoded({ extended: true })) // URL PARSER
 app.use(cookieParser(process.env.COOKIESSECRETKEY)) // "@123"  // COOIES PARSER
-app.use(cors()) // CORS
+app.use(cors({Credential:true})) // CORS 
 
 
 // EXPRESS ROUTER
@@ -45,8 +46,9 @@ databaseConnection()
 // ROUTES 
 router.get("/testRoutes", testRoutes)  // Test Home Routes
 
-router.post("/login", login)  // Login Routes generate JWT
-router.post("/createUsers", createUsers)  // Create Routes generate JWT
+router.post("/createUsers", createUsers)  // Create Routes generate JWT create cookies
+router.post("/login", login)  // Login Routes generate JWT create cooies
+router.post("/logout", logout)  // Logout Routes remove cookies
 
 router.post("/userProfile" ,jwtTokenVerify, userProfile) // profile routes with JWT
 router.put("/updateUsers", updateUsers)  // Update Routes with JWT

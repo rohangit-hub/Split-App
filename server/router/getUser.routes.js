@@ -32,7 +32,13 @@ export const login = async (req, res) => {
 
                 // JWT TOKEN GENERATE
                 const token = await userData.jwtTokenGenerate();
-                res.status(200).send({ message: "User logged In ", TOKEN: token })
+                res.cookie("token" , token , {
+                    httpOnly : true,
+                    secure : process.env.NODEENV === "production",
+                    sameSite : process.env.NODEENV === "production" ? "none" : "strict",
+                    maxAge : 7*24*60*60*1000
+                })
+                res.status(200).send({ message: "User logged In "})
 
             }
             else {
