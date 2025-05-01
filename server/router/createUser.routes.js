@@ -7,6 +7,10 @@ export const createUsers = async (req, res) => {
     // Getting Data By Body
     const { fullName,userName,email,password } = await req.body
 
+    if (!fullName || !userName || !email || !password || null) {
+        res.status(401).send({ message: "Invalid Email and Password" })
+    }
+
     // Hash The Password Before Save
     const encryptedPassword = await User.hashPassword(password)
 
