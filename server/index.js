@@ -14,7 +14,10 @@ import {removeUsers} from "./router/deleteUser.routes.js"
 import {updateUsers , patchUsers} from "./router/updateUser.routes.js"
 import {userProfile} from "./router/userProfile.routes.js"
 import {logout} from "./router/logoutUser.routes.js"
-import {sentOtp,verifyOtp} from "./router/sentOtp.routes.js"
+import {sentOtp} from "./router/sentOtp.routes.js"
+import {verifyOtp} from "./router/verifyOtp.routes.js"
+
+
 
 const app = express()
 app.use(express.json())  // JSON BODY PARSER
@@ -54,10 +57,10 @@ router.post("/sentOtp", sentOtp) // sent OTP for account verification
 router.post("/verifyOtp", verifyOtp) // verify OTP for account verification
 
 
-
 router.put("/updateUsers", updateUsers)  // Update Routes with JWT
 router.patch("/patchUsers", patchUsers)  // Patch Routes with JWT
 router.delete("/removeUsers", removeUsers)  // Delete Routes with JWT
+
 
 router.post("/userProfile" ,jwtTokenVerify, userProfile) // profile routes with JWT
 
