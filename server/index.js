@@ -21,7 +21,7 @@ import {isAuthenticated} from "./router/isAuthenicated.routes.js"
 import {sendResetOtp} from "./router/sendResetOtp.routes.js"
 import {verifyOtpResetPass} from "./router/verifyOtpResetPass.routes.js"
 import {getUserDetails} from "./router/getUserDetails.routes.js"
-
+import {genAi} from "./router/genAi.routes.js"
 
 const app = express()
 app.use(express.json())  // JSON BODY PARSER
@@ -64,7 +64,7 @@ router.post("/sendResetOtp" , sendResetOtp) // send the reset otp
 router.post("/verifyOtpResetPass" , verifyOtpResetPass) //verify the reset otp and change the password
 router.post("/getUserDetails" , verifyUserId , getUserDetails) // get the user details
 
-
+router.post("/genAi" , genAi)
 router.put("/updateUsers", updateUsers)  // Update Routes with JWT
 router.patch("/patchUsers", patchUsers)  // Patch Routes with JWT
 router.delete("/removeUsers", removeUsers)  // Delete Routes with JWT
