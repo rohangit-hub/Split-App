@@ -5,7 +5,9 @@ dotenv.config()
 /// VERIFY OTP ROUTES
 export const verifyOtp = async (req, res) => {
     try {
-        const { userId, otp } = req.body;
+        // console.log(req.body)
+        const {userId ,otp} = req.body;
+
         const userData = await User.findOne({_id : userId}).exec();
 
         if (!userData || !otp || null) {

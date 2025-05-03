@@ -6,12 +6,21 @@ dotenv.config()
 
 export const sentOtp = async (req, res) => {
     try {
+        // console.log(req.body)
         const { userId } = req.body;
-        const userData = await User.findOne({_id : userId}).exec();
-        
+
+        const userData = await User.findOne({ _id: userId }).exec();
+
         if (!userData || null) {
             return res.status(402).send({
                 message: "User not found ..!"
+            })
+        }
+
+        // IF USER IS ALREADY VERIFIED
+        if (userData.isAccountVarified) {
+            return res.status(201).send({
+                message: "User Already Varified ..!"
             })
         }
 
@@ -21,18 +30,18 @@ export const sentOtp = async (req, res) => {
         userData.verifyOtpExpireAt = Date.now() + 5 * 60 * 1000 // expire after 5 min from now.
 
         await userData.save()
-        .then(() => {
-            res.status(201).send({
-                message: `Hello ! ${userData.fullName} ..!, Save successfully ..!`
+            .then(() => {
+                res.status(201).send({
+                    message: `Hello ! ${userData.fullName} ..!, OTP sent to the registered email successfully..!`
+                })
             })
-        })
-        .catch((error) => {
-            res.status(402).send({
-                message: "Something went wrong ..!",
-                error: error
+            .catch((error) => {
+                res.status(402).send({
+                    message: "Something went wrong ..!",
+                    error: error
+                })
             })
-        })
-        
+
         // NOW SENT THE OPT TO THE MAIL
         const mailOption = {
             from: process.env.SENDER_EMAIL, // sender address
@@ -51,15 +60,6 @@ export const sentOtp = async (req, res) => {
                 error: error.message,
             });
         }
-
-
-        // IF USER IS ALREADY VERIFIED
-        if (userData.isAccountVarified) {
-            return res.status(201).send({
-                message: "User Already Varified ..!"
-            })
-        }
-
 
     } catch (error) {
         return res.status(500).send({

@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser"
 import databaseConnection from "./db/db.js"
 import cors from "cors"
 import {jwtTokenVerify} from "./auth/auth.js"
+import {sendOtpJwtTokenVerify} from "./auth/sentOtpAuth.js"
 
 
 // ROUTES
@@ -53,8 +54,8 @@ router.get("/testRoutes", testRoutes)  // Test Home Routes
 router.post("/createUsers", createUsers)  // Create Routes generate JWT create cookies
 router.post("/login", login)  // Login Routes generate JWT create cooies
 router.post("/logout", logout)  // Logout Routes remove cookies
-router.post("/sentOtp", sentOtp) // sent OTP for account verification
-router.post("/verifyOtp", verifyOtp) // verify OTP for account verification
+router.post("/sentOtp", sendOtpJwtTokenVerify, sentOtp) // sent OTP for account verification
+router.post("/verifyOtp", jwtTokenVerify, verifyOtp) // verify OTP for account verification
 
 
 router.put("/updateUsers", updateUsers)  // Update Routes with JWT

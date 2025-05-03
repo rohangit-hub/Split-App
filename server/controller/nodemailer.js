@@ -9,8 +9,8 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_LOGIN,
     pass: process.env.SMTP_PASS,
   },
-  debug: true, // Enable debug output
-  logger: true,
+  // debug: true, // Enable debug output
+  // logger: true,
 });
 
 export default transporter;

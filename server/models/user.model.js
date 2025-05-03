@@ -32,7 +32,7 @@ userSchema.methods.comparePassword = async function(password){
 
 // JWT Token Generate
 userSchema.methods.jwtTokenGenerate = async function(){
-    const token = jwt.sign({_id : this._id} , process.env.JWTSCERET , {expiresIn : '7d'})
+    const token = jwt.sign({_id : this._id} , process.env.JWTSCERET )
     return token
 }
 

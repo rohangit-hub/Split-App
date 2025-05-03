@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 
-export const jwtTokenVerify = async (req, res, next) => {
+export const sendOtpJwtTokenVerify = async (req, res, next) => {
 
     // Verify Token via cookies
     const { token } = req.cookies
@@ -14,7 +14,7 @@ export const jwtTokenVerify = async (req, res, next) => {
         const decodedData = jwt.verify(token, process.env.JWTSCERET)
 
         if (decodedData && decodedData._id) {
-            req.body.userId = decodedData._id;
+            req.body = {userId : decodedData._id};
             next();
         }
         else {
