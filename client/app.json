@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.rohanlinux2020.client"
     },
     "web": {
       "bundler": "metro",
@@ -28,14 +29,21 @@
       [
         "expo-splash-screen",
         {
-          "image": "",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "black"
+          "backgroundColor": "#ffffff"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "57f79826-bc44-4ac2-8c54-9ae23ff89e8c"
+      }
     }
   }
 }

@@ -1,46 +1,60 @@
-import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Animated, Image } from 'react-native';
-import { useRouter } from 'expo-router';
+import { View, Text , StyleSheet , Image, StatusBar, TouchableOpacity} from 'react-native'
+import {
+  responsiveScreenHeight as RH ,
+  responsiveFontSize as RFS,
+  responsiveScreenWidth as RW} from "react-native-responsive-dimensions";
+import { useFonts } from 'expo-font';
+import { SafeAreaProvider , SafeAreaView} from 'react-native-safe-area-context';
+import {useRouter} from 'expo-router';
+import { useEffect, useState } from 'react';
 
-export default function SplashScreen({ navigation }) {
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const router = useRouter()
 
-  useEffect(() => {
-    Animated.sequence([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1500,
-        useNativeDriver: true,
-      }),
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      router.push("./(tabs)/home")
-    });
-  }, []);
+const SplashScreen = () => {
+   const router = useRouter()
+
+  // STATES
+  const [fontsLoaded] = useFonts({
+    'Roboto_Condensed': require('../assets/fonts/Roboto_Condensed/RobotoCondensed-VariableFont_wght.ttf'),
+  });
+
+   if (!fontsLoaded) {
+    return null; // Apply <AppLoading />
+  }
+
+  useEffect (()=>{
+    setTimeout(()=>{
+      router.push("/Login")
+    },2000)
+
+  },[fontsLoaded])
 
   return (
-    <View style={styles.container}>
-      <Animated.Image
-        source={require('../assets/images/icon.png')}
-        // Replace with your image URL or require('path')
-        style={[styles.logoImage, { opacity: fadeAnim }]}
+    <SafeAreaProvider>
+    <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={"#F1F0E9"} barStyle={"dark-content"}/>
+      <Image
+        source={require('../assets/images/S-Icon.png')}
+        style={styles.image}
         resizeMode="contain"
       />
-    </View>
-  );
+    </SafeAreaView>
+    </SafeAreaProvider>
+  )
 }
 
+export default SplashScreen
+
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#000'
+  container:{
+    flex:1,
+    backgroundColor : "#F1F0E9",
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlignVertical : "center"
+},
+  image: {
+    width: RW(60),
+    height: RH(70),
   },
-  logoImage: {
-    width: 200,
-    height: 200,
-  },
-});
+})

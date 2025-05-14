@@ -1,80 +1,127 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { Link } from "expo-router";
-import { useRouter } from 'expo-router';
+import {Link , useRouter} from 'expo-router';
+import { View, Text, StyleSheet, StatusBar , TextInput } from 'react-native';
+import { useFonts } from 'expo-font';
+import { useState } from 'react';
+import {
+  responsiveScreenHeight as RH ,
+  responsiveFontSize as RFS,
+  responsiveScreenWidth as RW} from "react-native-responsive-dimensions";
 
 
-const register = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const router = useRouter();
+const Register = () => {
+  const [fontsLoaded] = useFonts({
+    'Roboto_Condensed': require('../assets/fonts/Roboto_Condensed/RobotoCondensed-VariableFont_wght.ttf'),
+    'RobotoCondensed-Italic' : require('../assets/fonts/Roboto_Condensed/RobotoCondensed-Italic-VariableFont_wght.ttf')
+  });
 
-    return (
-        <View style={styles.container}>
+  if (!fontsLoaded) {
+    return null; // or return <AppLoading />
+  }
 
-            <Text style={styles.label}>Full Name</Text>
-            <TextInput
-                style={styles.input}
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Enter your email"
-            />
+  const router = useRouter()
+  
+  // state
+  const[fullName, setFullName] = useState('')
+  const[userName , setUserName] = useState("")
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPass , setConfirmPass] = useState("")
 
-            <Text style={styles.label}>User Name</Text>
-            <TextInput
-                style={styles.input}
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Enter your email"
-            />
+  return (
+    <View style={styles.container}>
+      <StatusBar backgroundColor="#3C3D37" barStyle="light-content" />
+      <Text style= {styles.loginLogo} >REGISTER</Text>
 
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-                style={styles.input}
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Enter your email"
-            />
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-                style={styles.input}
-                value={password}
-                onChangeText={setPassword}
-                placeholder="Enter your password"
-                secureTextEntry={true}
-            />
-            <Button title="register" />
-            <View style={{ justifyContent: 'center', alignItems: 'center', padding: 20, }}>
-                <Text>Already have an account ? </Text>
-                <Link href="/login" style={{ color: "red" }}>Login</Link>
-                <Link href="./(tabs)/chat" style={{ color: "red" }}>tab</Link>
-            </View>
-        </View>
-    );
+      <View style={styles.formContainer}>
+      <TextInput
+          style = {styles.formContainerText}
+          onChangeText={setFullName}
+          value={fullName}
+          placeholder="Full Name"
+        />
+
+      <TextInput
+          style = {styles.formContainerText}
+          onChangeText={setUserName}
+          value={userName}
+          placeholder="User Name"
+        />
+
+      <TextInput
+          style = {styles.formContainerText}
+          onChangeText={setEmail}
+          value={email}
+          placeholder="Email"
+        />
+
+        <TextInput
+          style = {styles.formContainerText}
+          onChangeText={setPassword}
+          value={password}
+          placeholder="Password"
+          secureTextEntry={true}
+        />
+
+        <TextInput
+          style = {styles.formContainerText}
+          onChangeText={setConfirmPass}
+          value={confirmPass}
+          placeholder="Confirm Password"
+          secureTextEntry={false}
+        />
+
+        <Text style={styles.registerPageText}>Alreday have an account ? <Text onPress={() => router.push("/Login")} style={{color:"blue"}}> Sign In</Text></Text>
+      </View>
+      
+
+    </View>
+  );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-    },
-    label: {
-        alignSelf: 'flex-start',
-        marginBottom: 5,
-        fontWeight:"bold",
-        color: "gray"
-    },
-    input: {
-        height: 40,
-        width: '100%',
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius:10,
-        marginBottom: 10,
-        paddingHorizontal: 10,
-    },
-});
+export default Register;
 
-export default register;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F1F0E9',
+    fontFamily: "Roboto_Condensed"
+  },
+  loginLogo: {
+    flex: 1,
+    color: '#000000',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    fontSize : RW(12),
+    fontFamily : "Roboto_Condensed",
+  },
+  formContainer: {
+    flex: 2,
+    color: '#ECDFCC',
+    justifyContent : "flex-start",
+    alignItems : "center",
+    fontFamily : "Roboto_Condensed",
+    padding: RW(2),
+    width: RW(100),
+  },
+  formContainerText:{
+    width : RW(90),
+    color :'#000000',
+    paddingLeft : RW(5),
+    textAlign : "left",
+    textAlignVertical : "center",
+    fontSize : RW(4),
+    borderWidth : 2,
+    borderColor : "#B6B09F",
+    borderRadius : RW(5),
+    marginTop: RW(6)
+  },
+  registerPageText:{
+    marginTop :RW(8),
+    color :'#000000',
+    textAlign : "center",
+    textAlignVertical : "center",
+    fontSize : RW(4),
+    fontFamily : "Roboto_Condensed",
+
+  }
+});

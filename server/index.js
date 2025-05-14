@@ -23,6 +23,11 @@ import {verifyOtpResetPass} from "./router/verifyOtpResetPass.routes.js"
 import {getUserDetails} from "./router/getUserDetails.routes.js"
 import {genAi} from "./router/genAi.routes.js"
 
+// SPLIT APP ROUTES
+import {splitGroup} from "./router/splitGroup.routes.js"
+import {splitAddMembers} from "./router/splitAddMembers.routes.js"
+import {expense} from "./router/expense.routes.js"
+
 const app = express()
 app.use(express.json())  // JSON BODY PARSER
 app.use(express.urlencoded({ extended: true })) // URL PARSER
@@ -71,4 +76,9 @@ router.delete("/removeUsers", removeUsers)  // Delete Routes with JWT
 
 
 router.post("/userProfile" ,verifyUserId, userProfile) // profile routes with JWT
+
+// SPLIT APP ROUTER
+router.post("/splitGroup" , splitGroup) // create the group for expense split members
+router.post("/splitAddMembers" , splitAddMembers) // add members to the group
+router.post('/expense' , expense)
 
